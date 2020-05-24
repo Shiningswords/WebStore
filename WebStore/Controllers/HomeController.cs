@@ -10,7 +10,7 @@ namespace WebStore.Controllers
     {
         public IActionResult Index()
         {
-            return Content("First Controller action result");
+            return View();
         }
 
         public IActionResult AnotherAction()
