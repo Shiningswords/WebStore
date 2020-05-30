@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
 
 namespace WebStore
 {
@@ -35,7 +36,16 @@ namespace WebStore
 
             app.UseStaticFiles();
             app.UseDefaultFiles();
-                
+
+            app.UseWelcomePage("/MVC");
+
+            app.Use(async (context, next) =>
+            {
+                Debug.WriteLine($"Request to {context.Request.Path}");
+                await next(); //Можем прервать конвейер не вызывая await next()
+                //Постобработка
+            });
+            //app.UseMiddleware<>()
 
             app.UseRouting();
 
