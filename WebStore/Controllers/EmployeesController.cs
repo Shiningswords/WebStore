@@ -12,19 +12,19 @@ namespace WebStore.Controllers
     //[Route("Staff")]
     public class EmployeesController : Controller
     {
-        private static readonly List<Employee> __Employees = TestData.__Employees;
+        private static readonly List<Employee> _Employees = TestData._Employees;
 
         //[Route("{id}")]
         public IActionResult EmployeeDetails(int id)
         {
-            var employee = __Employees.FirstOrDefault(e => e.Id == id);
+            var employee = _Employees.FirstOrDefault(e => e.Id == id);
             if (employee is null) return NotFound();
             return View(employee);
         }
         //[Route("List")]
         public IActionResult Index()
         {
-            return View(__Employees);
+            return View(_Employees);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace WebStore.Data
 {
     public static class TestData
     {
-        public static List<Employee> __Employees { get; } = new List<Employee>
+        public static List<Employee> _Employees { get; } = new List<Employee>
         {
             new Employee
             {

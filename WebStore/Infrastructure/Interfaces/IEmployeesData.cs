@@ -6,7 +6,7 @@ using WebStore.Models;
 
 namespace WebStore.Infrastructure.Interfaces
 {
-    interface IEmoloyeesData
+    interface IEmployeesData
     {
         IEnumerable<Employee> Get();
 
