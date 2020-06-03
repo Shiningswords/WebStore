@@ -6,7 +6,7 @@ using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.Domain.Entities
 {
-    class Brand : NamedEntity, IOrderedEntity
+    public class Brand : NamedEntity, IOrderedEntity
     {
         public int Order { get; set; }
     }

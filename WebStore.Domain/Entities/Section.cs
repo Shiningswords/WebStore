@@ -4,9 +4,9 @@ using System.Text;
 using WebStore.Domain.Entities.Base;
 using WebStore.Domain.Entities.Base.Interfaces;
 
-namespace WebStore.Domain.Entityes
+namespace WebStore.Domain.Entities
 {
-    class SectionNamedEntity : NamedEntity, IOrderedEntity
+    public class Section : NamedEntity, IOrderedEntity
     {
         public int Order { get; set; }
 
