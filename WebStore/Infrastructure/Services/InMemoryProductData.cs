@@ -32,4 +32,5 @@ namespace WebStore.Infrastructure.Services
 
             return query;
         }
+    }
 }
