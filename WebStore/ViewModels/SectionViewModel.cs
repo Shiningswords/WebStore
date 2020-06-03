@@ -12,7 +12,7 @@ namespace WebStore.ViewModels
         public int Id { get; set; }
         public int Order { get; set; }
 
-        public List<SectionViewModel> ChildSection { get; set; } = new List<SectionViewModel>();
+        public List<SectionViewModel> ChildSections { get; set; } = new List<SectionViewModel>();
 
         public SectionViewModel ParentSection { get; set; }
     }
