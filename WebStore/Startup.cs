@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+п»їusing Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -28,10 +28,15 @@ namespace WebStore
                 .AddRazorRuntimeCompilation();
 
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
+            //services.AddTransient<IEmployeesData, InMemoryEmployeesData>(); //РІСЂРµРјРµРЅРЅС‹Р№
+            //services.AddScoped<IEmployeesData, InMemoryEmployeesData>(); //РїРѕСЃС‚РѕСЏРЅРЅС‹Р№ РІ РїСЂРµРґРµР»Р°С… РѕР±Р»Р°СЃС‚Рё
+
+            services.AddSingleton<IProductData, InMemoryProductData>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider Services*/)
         {
+            //var employees = Services.GetService<IEmployeesData>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -46,8 +51,8 @@ namespace WebStore
             //app.Use(async (context, next) =>
             //{
             //    Debug.WriteLine($"Request to {context.Request.Path}");
-            //    await next(); //Можем прервать конвейер не вызывая await next()
-            //    //Постобработка
+            //    await next(); //РњРѕР¶РµРј РїСЂРµСЂРІР°С‚СЊ РєРѕРЅРІРµР№РµСЂ РЅРµ РІС‹Р·С‹РІР°СЏ await next()
+            //    //РџРѕСЃС‚РѕР±СЂР°Р±РѕС‚РєР°
             //});
             //app.UseMiddleware<>()
 
