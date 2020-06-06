@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using WebStore.DAL.Context;
+using WebStore.Data;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services;
 
@@ -24,6 +25,8 @@ namespace WebStore
             services.AddDbContext<WebStoreDb>(opt =>
             opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddTransient<WebStoreDbInitializer>();
+
             services.AddControllersWithViews(opt =>
             {
                 //opt.Filters.Add<>()
@@ -35,12 +38,15 @@ namespace WebStore
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
             //services.AddTransient<IEmployeesData, InMemoryEmployeesData>(); //временный
             //services.AddScoped<IEmployeesData, InMemoryEmployeesData>(); //постоянный в пределах области
+            //services.AddSingleton<IProductData, InMemoryProductData>();
 
-            services.AddSingleton<IProductData, InMemoryProductData>();
+            services.AddScoped<IProductData, SqlProductData>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider Services*/)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDbInitializer db/*, IServiceProvider Services*/)
         {
+            db.Initialize();
+
             //var employees = Services.GetService<IEmployeesData>();
             if (env.IsDevelopment())
             {
