@@ -22,7 +22,7 @@ namespace WebStore.Data
 
             db.Migrate();
 
-            if (_db.Products.Any()) return;
+            if (_db.Products.Any() && _db.Employees.Any()) return;
 
             using (db.BeginTransaction())
             {
@@ -54,6 +54,18 @@ namespace WebStore.Data
                 db.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] ON");
                 _db.SaveChanges();
                 db.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Products] OFF");
+
+                transaction.Commit();
+            }
+
+            using (var transaction = db.BeginTransaction())
+            {
+                _db.Employees.AddRange(TestData._Employees);
+
+
+                db.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Employees] ON");
+                _db.SaveChanges();
+                db.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Employees] OFF");
 
                 transaction.Commit();
             }

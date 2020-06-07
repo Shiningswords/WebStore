@@ -35,11 +35,11 @@ namespace WebStore
             })
                 .AddRazorRuntimeCompilation();
 
-            services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
+
             //services.AddTransient<IEmployeesData, InMemoryEmployeesData>(); //временный
             //services.AddScoped<IEmployeesData, InMemoryEmployeesData>(); //постоянный в пределах области
             //services.AddSingleton<IProductData, InMemoryProductData>();
-
+            services.AddScoped<IEmployeesData, SqlEmployeesData>();
             services.AddScoped<IProductData, SqlProductData>();
         }
 
