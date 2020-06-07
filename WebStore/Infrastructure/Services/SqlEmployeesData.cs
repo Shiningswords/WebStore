@@ -42,10 +42,8 @@ namespace WebStore.Infrastructure.Services
             if (Employee is null)
                 throw new ArgumentNullException(nameof(Employee));
 
-            if (_db.Employees.Contains(Employee))
-                return;
-
             Employee db_item = GetById(Employee.Id);
+            if (db_item is null) return;
             _db.Employees.Attach(db_item);
             
             db_item.FirstName = Employee.FirstName;
