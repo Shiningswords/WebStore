@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
+using WebStore.DAL.Context;
+using WebStore.Data;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services;
 
@@ -19,6 +22,11 @@ namespace WebStore
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<WebStoreDb>(opt =>
+            opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<WebStoreDbInitializer>();
+
             services.AddControllersWithViews(opt =>
             {
                 //opt.Filters.Add<>()
@@ -27,15 +35,18 @@ namespace WebStore
             })
                 .AddRazorRuntimeCompilation();
 
-            services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
+
             //services.AddTransient<IEmployeesData, InMemoryEmployeesData>(); //временный
             //services.AddScoped<IEmployeesData, InMemoryEmployeesData>(); //постоянный в пределах области
-
-            services.AddSingleton<IProductData, InMemoryProductData>();
+            //services.AddSingleton<IProductData, InMemoryProductData>();
+            services.AddScoped<IEmployeesData, SqlEmployeesData>();
+            services.AddScoped<IProductData, SqlProductData>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider Services*/)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDbInitializer db/*, IServiceProvider Services*/)
         {
+            db.Initialize();
+
             //var employees = Services.GetService<IEmployeesData>();
             if (env.IsDevelopment())
             {
