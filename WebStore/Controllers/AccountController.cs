@@ -23,7 +23,7 @@ namespace WebStore.Controllers
 
         public IActionResult Login() => View();
 
-        public IActionResult LoginOut() => View();
+        public IActionResult LogOut() => View();
 
         public IActionResult AccessDenied() => View();
 
