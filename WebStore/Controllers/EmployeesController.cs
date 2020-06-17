@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Data;
 using WebStore.Domain.Entities;
@@ -12,6 +13,7 @@ namespace WebStore.Controllers
 {
     //[Route("NewRoute/[controller]/123")]
     //[Route("Staff")]
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly IEmployeesData _EmployeesData;
