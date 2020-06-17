@@ -97,7 +97,6 @@ namespace WebStore
             app.UseStaticFiles();
             app.UseDefaultFiles();
 
-            app.UseAuthentication();
 
             app.UseWelcomePage("/MVC");
 
@@ -111,7 +110,8 @@ namespace WebStore
 
             app.UseRouting();
 
-            
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
