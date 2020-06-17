@@ -1,16 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
+using WebStore.Domain.Entities.Identity;
 
 namespace WebStore.Data
 {
     public class WebStoreDbInitializer
     {
         private readonly WebStoreDb _db;
-        public WebStoreDbInitializer(WebStoreDb db) => _db = db;
+        private readonly UserManager<User> _UserManager;
+        private readonly RoleManager<Role> _RoleManager;
+        public WebStoreDbInitializer(WebStoreDb db, UserManager<User> UserManager, RoleManager<Role> RoleManager)
+        {
+            _db = db;
+            _UserManager = UserManager;
+            _RoleManager = RoleManager;
+        }
 
         public void Initialize()
         {
@@ -22,7 +30,34 @@ namespace WebStore.Data
 
             db.Migrate();
 
-            if (_db.Products.Any() && _db.Employees.Any()) return;
+            InitializeEmployees();
+
+            InitializeProducts();
+
+            InitializeIdentityAsync().Wait();
+        }
+
+        private void InitializeEmployees()
+        {
+            var db = _db.Database;
+
+            if (_db.Employees.Any()) return;
+
+            using (db.BeginTransaction())
+            {
+                var employees = TestData._Employees.ToList();
+                //foreach (var employee in employees)
+                //    employee.Id = 0;
+                employees.ForEach(e => e.Id = 0);
+
+                _db.Employees.AddRange(employees);
+            }
+        }
+
+        private void InitializeProducts()
+        {
+            var db = _db.Database;
+            if (_db.Products.Any() /*&& _db.Employees.Any()*/) return;
 
             using (db.BeginTransaction())
             {
@@ -68,6 +103,30 @@ namespace WebStore.Data
                 db.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Employees] OFF");
 
                 transaction.Commit();
+            }
+
+        }
+
+        private async Task InitializeIdentityAsync()
+        {
+            if (!await _RoleManager.RoleExistsAsync(Role.Administrator))
+                await _RoleManager.CreateAsync(new Role { Name = Role.Administrator });
+
+            if (!await _RoleManager.RoleExistsAsync(Role.User))
+                await _RoleManager.CreateAsync(new Role { Name = Role.User });
+
+            if (await _UserManager.FindByNameAsync(User.Administrator) is null)
+            {
+                var admin = new User { UserName = User.Administrator };
+
+                var create_result = await _UserManager.CreateAsync(admin, User.DefaultAdminPassword);
+                if (create_result.Succeeded)
+                    await _UserManager.AddToRoleAsync(admin, Role.Administrator);
+                else
+                {
+                    var errors = create_result.Errors.Select(e => e.Description);
+                    throw new InvalidOperationException($"Ошибка при создании пользователя Администратора: {string.Join(",", errors)}");
+                }
             }
         }
     }
