@@ -22,11 +22,16 @@ namespace WebStore.Infrastructure.Services
         {
             IQueryable<Product> query = _db.Products;
 
-            if (Filter?.BrandId != null)
-                query = query.Where(product => product.BrandId == Filter.BrandId);
+            if (Filter?.Ids?.Length > 0)
+                query = query.Where(product => Filter.Ids.Contains(product.Id));
+            else
+            {
+                if (Filter?.BrandId != null)
+                    query = query.Where(product => product.BrandId == Filter.BrandId);
 
-            if (Filter?.SectionId != null)
-                query = query.Where(product => product.SectionId == Filter.SectionId);
+                if (Filter?.SectionId != null)
+                    query = query.Where(product => product.SectionId == Filter.SectionId);
+            }
 
             return query;
         }
