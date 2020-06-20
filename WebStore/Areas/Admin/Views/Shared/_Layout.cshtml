@@ -40,9 +40,13 @@
             </div>
         </div>
         <!-- /. NAV TOP  -->
-        <partial name="Partial/_ASiteMenu"/>
-        @RenderBody()
+
+        <partial name="Partial/_ASiteMenu" />
+        <div id="page-wrapper">
+            @RenderBody()
+        </div>
     </div>
+    <!-- /. PAGE WRAPPER  -->
     <div class="footer">
 
 
