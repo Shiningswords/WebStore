@@ -1,6 +1,8 @@
 ﻿using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Mapping;
@@ -35,7 +37,7 @@ namespace WebStore.Controllers
 
         #region Редактирование
         [Authorize(Roles = Role.Administrator)]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int? id, [FromServices] IMapper Mapper)
         {
             if (id is null) return View(new EmployeeViewModel());
             if (id < 0) return BadRequest();
@@ -43,12 +45,13 @@ namespace WebStore.Controllers
             var employee = _EmployeesData.GetById((int)id);
             if (employee is null) return NotFound();
 
-            return View(employee.ToView());
+            return View(Mapper.Map<EmployeeViewModel>(employee));
+            //return View(employee.ToView());
         }
 
         [HttpPost]
         [Authorize(Roles = Role.Administrator)]
-        public IActionResult Edit(EmployeeViewModel Model)
+        public IActionResult Edit(EmployeeViewModel Model, [FromServices] IMapper Mapper)
         {
             if (Model is null)
                 throw new ArgumentNullException(nameof(Model));
@@ -62,7 +65,8 @@ namespace WebStore.Controllers
             if (!ModelState.IsValid)
                 return View(Model);
 
-            var employee = Model.FromView();
+            var employee = Mapper.Map<Employee>(Model);
+            //var employee = Model.FromView();
 
             if (Model.Id == 0)
                 _EmployeesData.Add(employee);

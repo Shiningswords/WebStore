@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ using System.Diagnostics;
 using WebStore.DAL.Context;
 using WebStore.Data;
 using WebStore.Domain.Entities.Identity;
+using WebStore.Infrastructure.AutoMapperProfiles;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services;
 
@@ -25,6 +27,13 @@ namespace WebStore
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<ViewModelsMapping>();
+            }, typeof(Startup));
+
+
+
             services.AddDbContext<WebStoreDb>(opt =>
             opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
