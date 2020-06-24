@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebStore.Data;
 using WebStore.Domain.Entities;
-using WebStore.Infrastructure.Interfaces;
+using WebStore.Interfaces.Services;
+using WebStore.Services.Data;
 
-namespace WebStore.Infrastructure.Services
+namespace WebStore.Services.Products
 {
     public class InMemoryEmployeesData : IEmployeesData
     {
@@ -52,7 +52,7 @@ namespace WebStore.Infrastructure.Services
         public IEnumerable<Employee> Get() => _Employees;
 
         public Employee GetById(int id) => _Employees.FirstOrDefault(x => x.Id == id);
-        
+
 
         public void SaveChanges() { }
     }

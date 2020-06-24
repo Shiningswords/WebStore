@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using WebStore.Domain.Entities;
 using WebStore.Domain.Models;
 using WebStore.Domain.ViewModels;
-using WebStore.Infrastructure.Interfaces;
-using WebStore.Infrastructure.Mapping;
+using WebStore.Interfaces.Services;
+using WebStore.Services.Mapping;
 
-namespace WebStore.Infrastructure.Services
+namespace WebStore.Services.Products
 {
-    public class CookiesCartService: ICartService
+    public class CookiesCartService : ICartService
     {
         private readonly IProductData _ProductData;
         private readonly IHttpContextAccessor _HttpContextAccessor;

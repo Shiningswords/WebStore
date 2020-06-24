@@ -10,11 +10,11 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Diagnostics;
 using WebStore.DAL.Context;
-using WebStore.Data;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.AutoMapperProfiles;
-using WebStore.Infrastructure.Interfaces;
-using WebStore.Infrastructure.Services;
+using WebStore.Interfaces.Services;
+using WebStore.Services.Data;
+using WebStore.Services.Products;
 
 namespace WebStore
 {

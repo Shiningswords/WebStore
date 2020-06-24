@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
-using WebStore.Infrastructure.Interfaces;
+using WebStore.Interfaces.Services;
 
-namespace WebStore.Infrastructure.Services
+namespace WebStore.Services.Products
 {
     public class SqlEmployeesData : IEmployeesData
     {
@@ -45,7 +45,7 @@ namespace WebStore.Infrastructure.Services
             Employee db_item = GetById(Employee.Id);
             if (db_item is null) return;
             _db.Employees.Attach(db_item);
-            
+
             db_item.FirstName = Employee.FirstName;
             db_item.Surname = Employee.Surname;
             db_item.Patronymic = Employee.Patronymic;
