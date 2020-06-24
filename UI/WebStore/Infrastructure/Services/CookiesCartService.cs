@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Models;
+using WebStore.Domain.ViewModels;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Mapping;
-using WebStore.Models;
-using WebStore.ViewModels;
 
 namespace WebStore.Infrastructure.Services
 {
