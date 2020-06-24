@@ -1,19 +1,20 @@
 ﻿    <ul class="nav navbar-nav collapse navbar-collapse">
-        <li><a asp-controller="Home" asp-action="Index" class="active">Home</a></li>
-        <li class="dropdown">
-            <a asp-controller="Catalog" asp-action="Shop">Shop<i class="fa fa-angle-down"></i></a>
-            <ul role="menu" class="sub-menu">
-                <li><a asp-controller="Catalog" asp-action="Shop">Магазин</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a asp-controller="Home" asp-action="Blog">Blog<i class="fa fa-angle-down"></i></a>
-            <ul role="menu" class="sub-menu">
-                <li><a asp-controller="Home" asp-action="Blog">Blog List</a></li>
-                <li><a asp-controller="Home" asp-action="BlogSingle">Blog Single</a></li>
-            </ul>
-        </li>
-        <li><a asp-controller="Home" asp-action="Error">404</a></li>
-        <li><a asp-controller="Home" asp-action="ContactUs">Contact</a></li>
-        <li><a asp-controller="Employees" asp-action="Index">Сотрудники</a></li>
-    </ul>
+    <li><a asp-controller="Home" asp-action="Index" class="active">Home</a></li>
+    <li class="dropdown">
+        <a asp-controller="Catalog" asp-action="Shop">Shop<i class="fa fa-angle-down"></i></a>
+        <ul role="menu" class="sub-menu">
+            <li><a asp-controller="Catalog" asp-action="Shop">Магазин</a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a asp-controller="Home" asp-action="Blog">Blog<i class="fa fa-angle-down"></i></a>
+        <ul role="menu" class="sub-menu">
+            <li><a asp-controller="Home" asp-action="Blog">Blog List</a></li>
+            <li><a asp-controller="Home" asp-action="BlogSingle">Blog Single</a></li>
+        </ul>
+    </li>
+    <li><a asp-controller="Home" asp-action="Error">404</a></li>
+    <li><a asp-controller="Home" asp-action="ContactUs">Contact</a></li>
+    <li><a asp-controller="Employees" asp-action="Index">Сотрудники</a></li>
+    <li><a asp-controller="WebApiTest" asp-action="Index">WebAPI</a></li>
+</ul>
