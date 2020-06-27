@@ -13,8 +13,10 @@ using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.AutoMapperProfiles;
 using WebStore.Interfaces.Services;
+using WebStore.Interfaces.TestApi;
 using WebStore.Services.Data;
 using WebStore.Services.Products;
+using WebStore.Clients.Values;
 
 namespace WebStore
 {
@@ -92,6 +94,8 @@ namespace WebStore
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, CookiesCartService>();
             services.AddScoped<IOrderService, SqlOrderService>();
+
+            services.AddTransient<IValueService, ValuesClient>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDbInitializer db/*, IServiceProvider Services*/)
