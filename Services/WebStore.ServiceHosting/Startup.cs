@@ -26,7 +26,8 @@ namespace WebStore.ServiceHosting
 
             services.AddControllers();
 
-            services.AddScoped<IEmployeesData, SqlEmployeesData>();
+            services.AddScoped<IEmployeesData, SqlEmployeesData>()
+                .AddScoped<IProductData,SqlProductData>();
 
 
         }
