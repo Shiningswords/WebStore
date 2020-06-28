@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using WebStore.DAL.Context;
+using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
 using WebStore.Services.Products;
@@ -22,12 +25,37 @@ namespace WebStore.ServiceHosting
             services.AddDbContext<WebStoreDb>(opt =>
             opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddTransient<WebStoreDbInitializer>();
+            services.AddTransient<WebStoreDbInitializer>();
+
+            services.AddIdentity<User, Role>()
+               .AddEntityFrameworkStores<WebStoreDb>()
+               .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(opt =>
+            {
+#if DEBUG
+                opt.Password.RequiredLength = 3;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequiredUniqueChars = 3;
+
+                //opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCD1234567890";
+                opt.User.RequireUniqueEmail = false;
+#endif
+
+                opt.Lockout.AllowedForNewUsers = true;
+                opt.Lockout.MaxFailedAccessAttempts = 10;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+            });
+
 
             services.AddControllers();
 
             services.AddScoped<IEmployeesData, SqlEmployeesData>()
-                .AddScoped<IProductData,SqlProductData>();
+                .AddScoped<IProductData, SqlProductData>()
+                .AddScoped<IOrderService, SqlOrderService>();
 
 
         }
