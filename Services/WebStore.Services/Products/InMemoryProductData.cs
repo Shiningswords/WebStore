@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebStore.Domain.DTO.Products;
 using WebStore.Domain.Entities;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
+using WebStore.Services.Mapping;
 
 namespace WebStore.Services.Products
 {
@@ -20,7 +22,7 @@ namespace WebStore.Services.Products
             return TestData.Sections;
         }
 
-        public IEnumerable<Product> GetProducts(ProductFilter Filter = null)
+        public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null)
         {
             var query = TestData.Products;
 
@@ -30,12 +32,12 @@ namespace WebStore.Services.Products
             if (Filter?.BrandId != null)
                 query = query.Where(product => product.BrandId == Filter.BrandId);
 
-            return query;
+            return query.Select(p => p.ToDTO());
         }
 
-        public Product GetProductById(int id)
+        public ProductDTO GetProductById(int id)
         {
-            return TestData.Products.FirstOrDefault(product => product.Id == id);
+            return TestData.Products.FirstOrDefault(product => product.Id == id).ToDTO();
         }
     }
 }
