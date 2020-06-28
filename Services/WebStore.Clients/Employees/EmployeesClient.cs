@@ -12,34 +12,16 @@ namespace WebStore.Clients.Employees
     {
         public EmployeesClient(IConfiguration Configuration) : base(Configuration, WebAPI.Employees) { }
 
-        public int Add(Employee Employee)
-        {
-            throw new System.NotImplementedException();
-        }
+        public IEnumerable<Employee> Get() => Get<IEnumerable<Employee>>(_ServiceAddress);
 
-        public bool Delete(int id)
-        {
-            throw new System.NotImplementedException();
-        }
+        public Employee GetById(int id) => Get<Employee>($"{_ServiceAddress}/{id}");
 
-        public void Edit(Employee Employee)
-        {
-            throw new System.NotImplementedException();
-        }
+        public int Add(Employee Employee) => Post(_ServiceAddress, Employee).Content.ReadAsAsync<int>().Result;
 
-        public IEnumerable<Employee> Get()
-        {
-            throw new System.NotImplementedException();
-        }
+        public void Edit(Employee Employee) => Put(_ServiceAddress, Employee);
 
-        public Employee GetById(int id)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool Delete(int id) => Delete($"{_ServiceAddress}/{id}").IsSuccessStatusCode;
 
-        public void SaveChanges()
-        {
-            throw new System.NotImplementedException();
-        }
+        public void SaveChanges() { }
     }
 }

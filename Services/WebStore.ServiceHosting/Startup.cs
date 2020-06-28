@@ -22,7 +22,7 @@ namespace WebStore.ServiceHosting
             services.AddDbContext<WebStoreDb>(opt =>
             opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddTransient<WebStoreDbInitializer>();
+            //services.AddTransient<WebStoreDbInitializer>();
 
             services.AddControllers();
 
@@ -31,9 +31,9 @@ namespace WebStore.ServiceHosting
 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDbInitializer db)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, WebStoreDbInitializer db*/)
         {
-            db.Initialize();
+            //db.Initialize();
 
             if (env.IsDevelopment())
             {

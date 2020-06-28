@@ -17,6 +17,7 @@ using WebStore.Interfaces.TestApi;
 using WebStore.Services.Data;
 using WebStore.Services.Products;
 using WebStore.Clients.Values;
+using WebStore.Clients.Employees;
 
 namespace WebStore
 {
@@ -90,7 +91,9 @@ namespace WebStore
             //services.AddTransient<IEmployeesData, InMemoryEmployeesData>(); //временный
             //services.AddScoped<IEmployeesData, InMemoryEmployeesData>(); //постоянный в пределах области
             //services.AddSingleton<IProductData, InMemoryProductData>();
-            services.AddScoped<IEmployeesData, SqlEmployeesData>();
+            //services.AddScoped<IEmployeesData, SqlEmployeesData>();
+            services.AddScoped<IEmployeesData, EmployeesClient>();
+
             services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<ICartService, CookiesCartService>();
             services.AddScoped<IOrderService, SqlOrderService>();
