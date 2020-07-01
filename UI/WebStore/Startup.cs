@@ -39,14 +39,7 @@ namespace WebStore
             }, typeof(Startup));
 
 
-
-            services.AddDbContext<WebStoreDb>(opt =>
-            opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddTransient<WebStoreDbInitializer>();
-
             services.AddIdentity<User, Role>(/*opt => { }*/)
-                           //.AddEntityFrameworkStores<WebStoreDb>()
                            .AddDefaultTokenProviders();
 
             #region WebAPI Identity clients stores
@@ -121,10 +114,9 @@ namespace WebStore
             services.AddTransient<IValueService, ValuesClient>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDbInitializer db/*, IServiceProvider Services*/)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            db.Initialize();
-
+            
             //var employees = Services.GetService<IEmployeesData>();
             if (env.IsDevelopment())
             {
