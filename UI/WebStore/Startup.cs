@@ -1,25 +1,21 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Diagnostics;
-using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.AutoMapperProfiles;
 using WebStore.Interfaces.Services;
 using WebStore.Interfaces.TestApi;
-using WebStore.Services.Data;
 using WebStore.Services.Products;
 using WebStore.Clients.Values;
 using WebStore.Clients.Employees;
 using WebStore.Clients.Products;
 using WebStore.Clients.Orders;
+using WebStore.Clients.Identity;
 
 namespace WebStore
 {
@@ -38,15 +34,23 @@ namespace WebStore
             }, typeof(Startup));
 
 
-
-            services.AddDbContext<WebStoreDb>(opt =>
-            opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddTransient<WebStoreDbInitializer>();
-
-            services.AddIdentity<User, Role>(/*opt => { }*/)
-                           .AddEntityFrameworkStores<WebStoreDb>()
+            services.AddIdentity<User, Role>()
                            .AddDefaultTokenProviders();
+
+            #region WebAPI Identity clients stores
+
+            services
+               .AddTransient<IUserStore<User>, UsersClient>()
+               .AddTransient<IUserPasswordStore<User>, UsersClient>()
+               .AddTransient<IUserEmailStore<User>, UsersClient>()
+               .AddTransient<IUserPhoneNumberStore<User>, UsersClient>()
+               .AddTransient<IUserTwoFactorStore<User>, UsersClient>()
+               .AddTransient<IUserClaimStore<User>, UsersClient>()
+               .AddTransient<IUserLoginStore<User>, UsersClient>();
+            services
+               .AddTransient<IRoleStore<Role>, RolesClient>();
+
+            #endregion
 
             services.Configure<IdentityOptions>(opt =>
             {
@@ -58,7 +62,6 @@ namespace WebStore
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequiredUniqueChars = 3;
 
-                //opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCD1234567890";
                 opt.User.RequireUniqueEmail = false;
 #endif
 
@@ -83,33 +86,22 @@ namespace WebStore
 
             services.AddControllersWithViews(opt =>
             {
-                //opt.Filters.Add<>()
-                //opt.Conventions
-                //opt.Conventions.Add();
+
             })
                 .AddRazorRuntimeCompilation();
 
 
-            //services.AddTransient<IEmployeesData, InMemoryEmployeesData>(); //временный
-            //services.AddScoped<IEmployeesData, InMemoryEmployeesData>(); //постоянный в пределах области
-            //services.AddSingleton<IProductData, InMemoryProductData>();
-            //services.AddScoped<IEmployeesData, SqlEmployeesData>();
             services.AddScoped<IEmployeesData, EmployeesClient>();
-
-            //services.AddScoped<IProductData, SqlProductData>();
             services.AddScoped<IProductData, ProductsClient>();
             services.AddScoped<ICartService, CookiesCartService>();
-            //services.AddScoped<IOrderService, SqlOrderService>();
             services.AddScoped<IOrderService, OrdersClient>();
 
             services.AddTransient<IValueService, ValuesClient>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDbInitializer db/*, IServiceProvider Services*/)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            db.Initialize();
-
-            //var employees = Services.GetService<IEmployeesData>();
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -122,13 +114,6 @@ namespace WebStore
 
             app.UseWelcomePage("/MVC");
 
-            //app.Use(async (context, next) =>
-            //{
-            //    Debug.WriteLine($"Request to {context.Request.Path}");
-            //    await next(); //Можем прервать конвейер не вызывая await next()
-            //    //Постобработка
-            //});
-            //app.UseMiddleware<>()
 
             app.UseRouting();
 
