@@ -18,6 +18,7 @@ using WebStore.Clients.Orders;
 using WebStore.Clients.Identity;
 using Microsoft.Extensions.Logging;
 using WebStore.Logger;
+using WebStore.Infrastructure.MiddleWare;
 
 namespace WebStore
 {
@@ -110,6 +111,8 @@ namespace WebStore
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseStaticFiles();
             app.UseDefaultFiles();
