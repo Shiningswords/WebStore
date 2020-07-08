@@ -118,9 +118,6 @@ namespace WebStore
             app.UseDefaultFiles();
 
 
-            app.UseWelcomePage("/MVC");
-
-
             app.UseRouting();
 
             app.UseAuthentication();
