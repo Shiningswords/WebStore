@@ -95,8 +95,11 @@ namespace WebStore
 
 
             services.AddScoped<IEmployeesData, EmployeesClient>();
-            services.AddScoped<IProductData, ProductsClient>();
+            services.AddScoped<IProductData, ProductsClient>(); 
             services.AddScoped<ICartService, CookiesCartService>();
+            services.AddScoped<ICartStore, CookiesCartStore>();
+            services.AddScoped<ICartService, CartService>();
+            //services.AddScoped<ICartService, CookiesCartService>();
             services.AddScoped<IOrderService, OrdersClient>();
 
             services.AddTransient<IValueService, ValuesClient>();
@@ -116,9 +119,6 @@ namespace WebStore
 
             app.UseStaticFiles();
             app.UseDefaultFiles();
-
-
-            app.UseWelcomePage("/MVC");
 
 
             app.UseRouting();

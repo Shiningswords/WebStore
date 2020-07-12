@@ -18,16 +18,20 @@ namespace WebStore.Controllers
 
         public IActionResult Cart() => View();
 
-        public IActionResult CheckOut() => View();
-
         public IActionResult ContactUs() => View();
 
-        public IActionResult Login() => View();
-
-        public IActionResult ProductDetails() => View();
-
-        public IActionResult Shop() => View();
-
         public IActionResult Error() => View();
+
+        public IActionResult ErrorStatus(string Code)
+        {
+            switch (Code)
+            {
+                default:
+                    return Content($"Error code:{Code}");
+
+                case "404":
+                    return RedirectToAction(nameof(Error));
+            }
+        }
     }
 }
