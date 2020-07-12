@@ -17,10 +17,14 @@ namespace WebStore.Services.Products
             return TestData.Brands;
         }
 
+        public Brand GetBrand(int Id) => TestData.Brands.FirstOrDefault(b => b.Id == Id);
+
         public IEnumerable<Section> GetSections()
         {
             return TestData.Sections;
         }
+
+        public Section GetSection(int Id) => TestData.Sections.FirstOrDefault(s => s.Id == Id);
 
         public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null)
         {
