@@ -27,9 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Logger", "Common\W
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E31CAA51-1D8F-4101-B0AD-954ABABE7028}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Tests", "Tests\WebStore.Tests\WebStore.Tests.csproj", "{D180967F-4E42-425D-9600-85EA9C62B280}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Tests", "Tests\WebStore.Tests\WebStore.Tests.csproj", "{D180967F-4E42-425D-9600-85EA9C62B280}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Services.Tests", "WebStore.Services.Tests\WebStore.Services.Tests.csproj", "{E137C6D0-1FD7-43CF-8326-95D8C2471672}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Services.Tests", "WebStore.Services.Tests\WebStore.Services.Tests.csproj", "{E137C6D0-1FD7-43CF-8326-95D8C2471672}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.BlazorUI", "UI\WebStore.BlazorUI\WebStore.BlazorUI.csproj", "{290D9558-E3D4-4377-9EEC-2943FD3C86DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{E137C6D0-1FD7-43CF-8326-95D8C2471672}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E137C6D0-1FD7-43CF-8326-95D8C2471672}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E137C6D0-1FD7-43CF-8326-95D8C2471672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{290D9558-E3D4-4377-9EEC-2943FD3C86DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{290D9558-E3D4-4377-9EEC-2943FD3C86DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{290D9558-E3D4-4377-9EEC-2943FD3C86DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{290D9558-E3D4-4377-9EEC-2943FD3C86DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{E2CEEF00-EB5C-4334-9258-AD33A81C77C5} = {F41D4BB8-F7F5-4EAA-BFDB-537EC80DA585}
 		{D180967F-4E42-425D-9600-85EA9C62B280} = {E31CAA51-1D8F-4101-B0AD-954ABABE7028}
 		{E137C6D0-1FD7-43CF-8326-95D8C2471672} = {E31CAA51-1D8F-4101-B0AD-954ABABE7028}
+		{290D9558-E3D4-4377-9EEC-2943FD3C86DB} = {BCC5C6F8-EB20-472B-BC1D-3DE9138FA2ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADDA8911-1072-4E8B-A1C3-B6BFA5835A13}
