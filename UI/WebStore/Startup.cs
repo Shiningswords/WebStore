@@ -19,6 +19,7 @@ using WebStore.Clients.Identity;
 using Microsoft.Extensions.Logging;
 using WebStore.Logger;
 using WebStore.Infrastructure.MiddleWare;
+using WebStore.Hubs;
 
 namespace WebStore
 {
@@ -31,6 +32,9 @@ namespace WebStore
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
+
+
             services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<ViewModelsMapping>();
@@ -93,6 +97,8 @@ namespace WebStore
             })
                 .AddRazorRuntimeCompilation();
 
+            services.AddRazorPages();
+
 
             services.AddScoped<IEmployeesData, EmployeesClient>();
             services.AddScoped<IProductData, ProductsClient>(); 
@@ -112,8 +118,11 @@ namespace WebStore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
                 app.UseBrowserLink();
             }
+
+            app.UseBlazorFrameworkFiles();
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
@@ -128,6 +137,11 @@ namespace WebStore
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<InformationHub>("/info");
+
+                endpoints.MapRazorPages();
+                endpoints.MapFallbackToFile("blazor.html");
+
                 endpoints.MapControllerRoute(
             name: "areas",
             pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
