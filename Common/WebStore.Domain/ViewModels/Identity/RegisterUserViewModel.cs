@@ -9,7 +9,7 @@ namespace WebStore.Domain.ViewModels.Identity
     public class RegisterUserViewModel
     {
         [Required]
-        [MaxLength(256)]
+        [MinLength(3, ErrorMessage = "Минимальная длина 3 символа")]
         [Display(Name = "Имя пользователя")]
         public string UserName { get; set; }
 
