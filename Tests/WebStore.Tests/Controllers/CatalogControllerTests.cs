@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using WebStore.Controllers;
@@ -53,7 +54,10 @@ namespace WebStore.Tests.Controllers
                    }
                });
 
-            var controller = new CatalogController(product_data_mock.Object);
+            var configuration_mock = new Mock<IConfiguration>();
+            configuration_mock.Setup(cfg => cfg["PageSize"]).Returns("3");
+
+            var controller = new CatalogController(product_data_mock.Object, configuration_mock.Object);
 
             #endregion
 
@@ -122,16 +126,23 @@ namespace WebStore.Tests.Controllers
             var product_data_mock = new Mock<IProductData>();
             product_data_mock
                .Setup(p => p.GetProducts(It.IsAny<ProductFilter>()))
-               .Returns(products);
+               .Returns(new PageProductsDTO
+               {
+                   Products = products,
+                   TotalCount = products.Length
+               });
 
-            var controller = new CatalogController(product_data_mock.Object);
+            var configuration_mock = new Mock<IConfiguration>();
+            configuration_mock.Setup(cfg => cfg["PageSize"]).Returns("3");
+
+            var controller = new CatalogController(product_data_mock.Object, configuration_mock.Object);
 
             const int expected_section_id = 1;
             const int expected_brand_id = 5;
 
             var mapper_mock = new Mock<IMapper>();
-            mapper_mock.Setup(mapper => mapper.Map<ProductViewModel>(It.IsAny<ProductDTO>()))
-               .Returns<ProductDTO>(p => new ProductViewModel
+            mapper_mock.Setup(mapper => mapper.Map<ProductViewModel>(It.IsAny<Product>()))
+               .Returns<Product>(p => new ProductViewModel
                {
                    Id = p.Id,
                    Name = p.Name,
@@ -151,7 +162,7 @@ namespace WebStore.Tests.Controllers
             Assert.Equal(expected_brand_id, model.BrandId);
             Assert.Equal(expected_section_id, model.SectionId);
 
-            //Assert.Equal(products[0].Brand.Name, actual_products[0].Brand);
+            Assert.Equal(products[0].Brand.Name, model.Products.First().Brand);
         }
     }
 }
